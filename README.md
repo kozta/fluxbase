@@ -6,14 +6,54 @@ Fluxbase uses the [Google Firebase](https://firebase.google.com) database backen
 a [flux architecture](https://facebook.github.io/flux/docs/overview.html).
 
 Currenty you can listen to certain references of the database using the Firebase events (`value`, 
-`child_added`, `child_changed`, `child_removed`, `child_moved`) and handle action with custom
+`child_added`, `child_changed`, `child_removed`, `child_moved`) and handle actions with custom
 action handler functions that are registered in the store.
 
 As for now only one store is supported that is equivalent of one connection to a Firebase database.
 
 ## Usage
 
-Below is a minimal usage example with [React](https://facebook.github.io/react/).
+Here is a minimal usage example.
+
+```js
+// Import fluxbase
+var Fluxbase = require('fluxbase');
+
+// Create the store with your Google Firebase database URL
+// You can find this URL on the Firebase Console
+var store = new Fluxbase({
+    apiKey: "<your-api-key>",
+    databaseURL: "<your-database-url>",
+});
+
+// Registering action handler
+store.register(function (action) {
+    switch (action.type) {
+        // In case of an `NEXT` event read `number` from the
+        // database and multiply it by 2
+        case 'NEXT':
+            store.ref('number').once('value', function (snapshot) {
+                console.log('NEXT action: ', snapshot.val());
+                store.ref('number').set(snapshot.val() * 2);
+            });
+            break;
+        default: 
+            return;
+    }
+});
+
+// Log current value
+store.ref('number').on('value', function (snapshot) {
+   console.log('value event: ', snapshot.val());
+});
+
+// Send `NEXT` action
+store.dispatch({
+  type: 'NEXT' 
+});
+```
+
+Below is a small example of usage with [React](https://facebook.github.io/react/).
 
 ```js
 // Import React
@@ -87,7 +127,6 @@ ReactDOM.render(
     </div>,
     document.getElementById('container')
 );
-
 ```
 
 The API key and the database URL can be found in the 
