@@ -1,23 +1,20 @@
 var Firebase = require('firebase');
 
-var fluxbase = function (config) {
+var Fluxbase = function (config) {
     Firebase.initializeApp(config);
     this.database = Firebase.database();
+    this.ref = this.database.ref.bind(this.database);
     this.handlers = [];
 };
 
-fluxbase.prototype.register = function (callback) {
+Fluxbase.prototype.register = function (callback) {
     this.handlers.push(callback);
 };
 
-fluxbase.prototype.dispatch = function (action) {
+Fluxbase.prototype.dispatch = function (action) {
     this.handlers.forEach(function (handler) {
-        handler.bind(this.database)(action);
-    }.bind(this));
+        handler(action);
+    });
 };
 
-fluxbase.prototype.listen = function (path, event, callback) {
-    this.database.ref(path).on(event, callback);
-}
-
-module.exports = fluxbase;
+module.exports = Fluxbase;

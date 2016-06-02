@@ -20,11 +20,11 @@ Below is a minimal usage example with [React](https://facebook.github.io/react/)
 var React = require('react');
 var ReactDOM = require('react-dom');
 // Import fluxbase
-var fluxbase = require('fluxbase');
+var Fluxbase = require('fluxbase');
 
 // Create the store with your Google Firebase database URL
 // You can find this URL on the Firebase Console
-var store = new fluxbase({
+var store = new Fluxbase({
     apiKey: "<your-api-key>",
     databaseURL: "<your-database-url>",
 });
@@ -35,11 +35,10 @@ store.register(function (action) {
     switch (action.type) {
         // In case of an `UPDATE` event update the database with the given value
         case 'UPDATE':
-            this.ref().set({
+            store.ref().set({
                 name: action.value
             });
-            break;
-        
+            break
         default:
             console.error('UNSUPPORTED ACTION TYPE');
     }
@@ -49,12 +48,12 @@ store.register(function (action) {
 var DisplayComponent = React.createClass({
     getInitialState: function () {
         // Listening for the changes of value of `name`
-        store.listen('name', 'value', (snapshot) => {
+        store.ref('name').on('value', function (snapshot) {
             // Updating the component state on value change
             this.setState({
                 name: snapshot.val()
             });
-        });
+        }.bind(this));
         // Setting default value that is displayed until the database connection is made
         return {
             name: 'I don\'t know yet.'
@@ -94,6 +93,9 @@ ReactDOM.render(
 The API key and the database URL can be found in the 
 [Firebase Console](https://console.firebase.google.com/) under
 **Overview > Add Firebase to your web app**.
+
+For full reference for the methods of the `store` please refer the 
+[Google Firebase Web API](https://firebase.google.com/docs/reference/js/firebase.database.Reference).
 
 ## Installation
 
