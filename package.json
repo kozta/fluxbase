@@ -1,0 +1,26 @@
+{
+  "name": "fluxbase",
+  "version": "0.0.1",
+  "description": "Flux implementation using Google Firebase",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vimtaai/fluxbase.git"
+  },
+  "keywords": [
+    "flux",
+    "firebase"
+  ],
+  "author": "Márton Visnovitz <vimtaai@inf.elte.hu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vimtaai/fluxbase/issues"
+  },
+  "homepage": "https://github.com/vimtaai/fluxbase#readme",
+  "dependencies": {
+    "firebase": "^3.0.3"
+  }
+}
