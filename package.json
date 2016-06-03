@@ -32,8 +32,8 @@
     "chai": "^3.5.0",
     "mocha": "^2.5.3"
   },
-  "engines": { 
-    "node" : ">=0.10"
+  "engines": {
+    "node": ">=0.10"
   },
   "babel": {
     "presets": [
