@@ -1,4 +1,12 @@
-## 0.0.2
+## 0.0.3 (Jun 03, 2016)
+
+### Added
+
+- Multiple options for initialization
+- Uninitialized stores
+- Mocha tests
+
+## 0.0.2 (Jun 03, 2016)
 
 ### Removed
 
@@ -16,6 +24,6 @@
 
 - Support for multiple stores
 
-## 0.0.1
+## 0.0.1 (Jun 02, 2016)
 
 Initial release

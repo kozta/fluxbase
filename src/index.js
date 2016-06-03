@@ -1,12 +1,24 @@
 import Firebase from 'firebase';
 
 export class Store {
-    constructor(config) {
-        this.app = Firebase.initializeApp(config, 'store' + (new Date()).getTime());
-        this.database = this.app.database();
-        this.ref = this.database.ref.bind(this.database);
-        
+    constructor(initializer) {
+        this.initialize(initializer);
         this.handlers = [];
+    }
+    
+    initialize(initializer) {
+        if (initializer !== undefined) { 
+            if (initializer instanceof Firebase.app) {
+                this.app = initializer;
+            } else if (typeof initializer === 'object') {
+                this.app = Firebase.initializeApp(initializer, 'store' + (new Date()).getTime());
+            }
+            this.database = this.app.database();
+            this.ref = this.database.ref.bind(this.database);
+            this.initialized = true;
+        } else {
+            this.initialized = false;
+        }
     }
     
     register(callback) {
@@ -18,6 +30,9 @@ export class Store {
     }
     
     dispatch(action) {
+        if (!this.initialized) {
+            throw new Error('Dispatching action to uninitialized store');
+        }
         this.handlers.forEach(handler => handler(action));
     }
 }
