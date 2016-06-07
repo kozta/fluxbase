@@ -1,5 +1,5 @@
 import Firebase from 'firebase';
-import EventEmitter from 'events';
+import { EventEmitter } from 'events';
 
 export class Store extends EventEmitter {
     constructor(initializer) {
