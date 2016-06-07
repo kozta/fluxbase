@@ -1,3 +1,9 @@
+## 0.0.4 (Jun 07, 2016)
+
+### Added
+
+- Events for database connection state changes
+
 ## 0.0.3 (Jun 03, 2016)
 
 ### Added

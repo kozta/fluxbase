@@ -1,10 +1,11 @@
 {
   "name": "fluxbase",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Flux implementation using Google Firebase",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
+    "watch": "babel src --out-dir dist -w",
     "pretest": "npm run build",
     "test": "mocha dist/**/*.test.js"
   },

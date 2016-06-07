@@ -1,4 +1,4 @@
-# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v0.0.3-blue.svg)
+# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v0.0.4-blue.svg)
 
 A minimal implementation of a Flux-like architecture using the new Google Firebase as the store.
 
@@ -6,9 +6,10 @@ Fluxbase uses the [Google Firebase](https://firebase.google.com) database backen
 a [flux-like architecture](https://facebook.github.io/flux/docs/overview.html) with a unidirectional
 flow.
 
-You can listen to certain references of the database using the Firebase events (`value`, 
-`child_added`, `child_changed`, `child_removed`, `child_moved`) and handle actions with custom
-action handler functions that are registered in the store. These handlers can modify the database.
+You can fetch data and listen to changes of the database using the Firebase events and handle 
+actions with custom action handler functions that are registered in the store. With these handlers
+you can modify the database. Google's Realtime Database feature always keeps your data in-sync with
+the database contents.
 
 ## Usage
 
@@ -57,7 +58,7 @@ The API key and the database URL can be found in the
 **Overview > Add Firebase to your web app**.
 
 Alternatively you can set up the store with a [`Firebase.app.App`](https://firebase.google.com/docs/reference/js/firebase.app.App)
-created by the [`Firebase.app.initializeApp()`](https://firebase.google.com/docs/reference/js/firebase#.initializeApp) method.
+object created by the [`Firebase.app.initializeApp()`](https://firebase.google.com/docs/reference/js/firebase#.initializeApp) method.
 
 ```js
 import Firebase from 'firebase';
@@ -71,13 +72,28 @@ var app = Firebase.initializeApp({
 var store = new Store(app);
 ```
 
-With this method you still have access to the original `Firebase.app.App` object. This can be useful 
+This way you still have access to the original `Firebase.app.App` object. This can be useful 
 if you want to use other features of Firebase like [Auth](https://firebase.google.com/docs/auth/web/manage-users) 
 or [Storage](https://firebase.google.com/docs/storage/web/start).
 
 If you create a new store without passing any parameters you get an uninitialized store. You can't 
 dispatch actions to uninitialized stores but you can register handler functions. You can initialize
-such stores with the `Store.initialize()` function which takes the same parameters as the constructor.
+such stores with the `Store.initialize()` method which takes the same parameters as the constructor.
+
+You can also handle database availability by registering callbacks for three events the Fluxbase 
+stores can emit. These event are the following:
+
+* `connect`: fires when the connection to the database was first established
+* `disconnect`: fires when the connection to the database was lost
+* `reconncet`: fires when the connection to the database was reestablished after a disconneciton
+
+For registering event handlers you can use the `.on()` method of the store:
+
+```js
+store.on('disconnect', () => {
+   alert('Oh, snap! We lost connection to the server!'); 
+});
+```
 
 For full reference for the methods of the `Store` please refer the 
 [Google Firebase Web API](https://firebase.google.com/docs/reference/js/firebase.database.Reference).
