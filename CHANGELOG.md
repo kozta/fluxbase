@@ -1,3 +1,23 @@
+## 0.0.5 (Jun 15, 2016)
+
+### Added
+
+- The `Fluxbase` class
+- Default export of a `Fluxbase` object
+
+### Modified
+
+- `Store` is now created with the `Fluxbase.createStore` method
+- `Store` now emits events based on the action type
+- Actions are now dispatched to the `Fluxbase` object
+
+### Removed
+
+- The `dispatch` method of the `Store`
+- The `register` method of the `Store`
+- The `unregister` method of the `Store`
+- Export for `Store`
+
 ## 0.0.4 (Jun 07, 2016)
 
 ### Added
@@ -22,8 +42,7 @@
 ### Modified
 
 - Fluxbase is now imported as a class (`import { Store } from 'firebase';`)
-- The `Store` now uses only the 
-  [Google Firebase Reference API](https://firebase.google.com/docs/reference/js/firebase.database.Reference)
+- The `Store` now uses only the [Google Firebase Reference API](https://firebase.google.com/docs/reference/js/firebase.database.Reference)
 - The package is now written in ES6
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "fluxbase",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Flux implementation using Google Firebase",
   "main": "dist/index.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "babel-core": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",
     "chai": "^3.5.0",
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "sinon": "^1.17.4"
   },
   "engines": {
     "node": ">=0.10"
