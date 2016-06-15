@@ -8,7 +8,7 @@ class Fluxbase extends EventEmitter {
      */
     constructor() {
         super();
-        this._stores = new Set();
+        this._stores = [];
     } // END constructor
     
     /**
@@ -31,7 +31,7 @@ class Fluxbase extends EventEmitter {
      */
     createStore(obj) {
         let store = new Store(obj);
-        this._stores.add(store);
+        this._stores.push(store);
         return store;
     } // END createStore
 }

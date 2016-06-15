@@ -36,7 +36,7 @@ var Fluxbase = function (_EventEmitter) {
 
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Fluxbase).call(this));
 
-        _this._stores = new Set();
+        _this._stores = [];
         return _this;
     } // END constructor
 
@@ -69,7 +69,7 @@ var Fluxbase = function (_EventEmitter) {
         key: 'createStore',
         value: function createStore(obj) {
             var store = new Store(obj);
-            this._stores.add(store);
+            this._stores.push(store);
             return store;
         } // END createStore
 
