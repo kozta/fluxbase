@@ -1,10 +1,15 @@
 import Firebase from 'firebase';
 import { EventEmitter } from 'events';
 
-/** Class representing the dispatcher in the Flux architecture */
+/** 
+ * Class representing the dispatcher in the Flux architecture
+ * @extends {external:EventEmitter}
+ */
 class Fluxbase extends EventEmitter {
     /**
-     * Create a Fluxbase object
+     * Create a Fluxbase object. (Should not be called. The module exports an instance.)
+     * 
+     * @constructor
      */
     constructor() {
         super();
@@ -12,10 +17,18 @@ class Fluxbase extends EventEmitter {
     } // END constructor
     
     /**
-     * Broadcast an action to all Stores
+     * Broadcast an action to all Stores.
+     * 
      * @param {Object} action      - The action object
      * @param {string} action.type - The type of the action
      * @param {*=}     action.data - Additional data for the action
+     * @exception {Error} Will throw an error if the action parameter has no `type` property
+     * @example
+     * ```js
+     * Fluxbase.dispatch({
+     *   type: 'next'
+     * });
+     * ```
      */
     dispatch(action) {
         if ('type' in (action || {})) {
@@ -26,8 +39,29 @@ class Fluxbase extends EventEmitter {
     } // END dispatch
     
     /**
-     * Create a new Store and register it for broadcasts
-     * @param {(Object|Firebase.app.App)} obj - The initializer of the Store
+     * Create a new Store and register it for broadcasts.
+     * 
+     * @access public
+     * @param {(Object|Firebase.app)=} obj - The initializer of the Store
+     * @return {Store} A new Store object
+     * @example
+     * With an object literal:
+     * ```js
+     * var store = Fluxbase.createStore({
+     *   apiKey: "<your-api-key>",
+     *   databaseURL: "<your-database-url>"
+     * });
+     * ```
+     * 
+     * With a Firebase.app object:
+     * ```js
+     * var app = Firebase.initializeApp({
+     *   apiKey: "<your-api-key>",
+     *   databaseURL: "<your-database-url>",
+     *}, 'appname');
+     *
+     * var store = Fluxbase.createStore(app);
+     * ```
      */
     createStore(obj) {
         let store = new Store(obj);
@@ -36,10 +70,18 @@ class Fluxbase extends EventEmitter {
     } // END createStore
 }
 
-/**  Class representing the store in the Flux architecture */
+/** 
+ * Class representing the store in the Flux architecture 
+ * @extends {external:EventEmitter}
+ * @fires Store#connect
+ * @fires Store#disconnect
+ * @fires Store#reconnect
+ */
 class Store extends EventEmitter {
     /**
-     * Create a Store object
+     * Create a Store object. (Should not be used. Use {@link Fluxbase#createStore} instead.)
+     * 
+     * @constructor
      * @param {(Object|Firebase.app.App)} obj - The initializer of the Store
      */
     constructor(obj) {
@@ -48,11 +90,18 @@ class Store extends EventEmitter {
         this.init(obj);
     } // END constructor
     
-    // init :: object? -> void
     /**
-     * Initialize the Store
-     * Should be called only on an uninitialized Store
+     * Initialize an uninitialized Store.
+     * Should be called only on an uninitialized Store.
      * @param {(Object|Firebase.app.App)=} obj - The initializer of the Store
+     * @example
+     * ```js
+     * var store = Fluxbase.createStore(); // Uninitialized Store
+     * store.init({
+     *   apiKey: "<your-api-key>",
+     *   databaseURL: "<your-database-url>",   
+     * });
+     * ```
      */
     init(obj) {
         this._isInit = false;
@@ -86,5 +135,9 @@ class Store extends EventEmitter {
     } // END init
 }
 
-// Module export: the Flux dispatcher
 export default new Fluxbase();
+
+/**
+ * @external EventEmitter
+ * @see https://nodejs.org/api/events.html#events_class_eventemitter
+ */
