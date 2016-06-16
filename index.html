@@ -1,0 +1,134 @@
+<!doctype html>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluxbase - Flux implementation using Google Firebase</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/tomorrow-night.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
+
+<script src="https://buttons.github.io/buttons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+
+<style type="text/css">
+    h1 { padding-top: 40px; }
+    #main { position: relative; }
+    #github { margin-top: 5px; margin-bottom: -5px; }
+    #placeholder { height: 200px; margin-bottom: -100px; }
+    #docs { padding-left: 66px; }
+    #docs h1, #docs hr { margin-left: -56px; }
+    #docs h2 { font-size: 1.25rem; font-weight: bold; margin-left: -56px; }
+    #docs h3 { font-size: 1.1rem; margin-left: -23px; }
+    #docs h2:before { content: '\f05f'; font-family: 'octicons'; padding-right: 10px; }
+    #docs h2:first-of-type:before { content: '\f001';  }
+    #docs h3:before { content: '\26A1'; font-family: 'octicons'; padding-right: 10px; }
+</style>
+
+<main data-spy="scroll" id="main">
+
+<nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
+    <div class="container" id="navigation">
+        <a href="#main" class="navbar-brand">Fluxbase</a>
+        <ul class="nav navbar-nav" role="tablist">
+            <li class="nav-item m-x-sm"><a href="#about" class="nav-link">About</a></li>
+            <li class="nav-item m-x-sm"><a href="#docs" class="nav-link">Docs</a></li>
+            <li class="nav-item m-x-sm"><a href="#samples" class="nav-link">Samples</a></li>
+        </ul>
+        <div class="pull-right" id="github">
+            <!-- Place this tag where you want the button to render. -->
+            <a class="github-button" 
+               href="https://github.com/vimtaai/fluxbase" 
+               data-style="mega" 
+               aria-label="Watch vimtaai/fluxbase on GitHub">View on GitHub</a>
+        </div>
+    </div>
+</nav>
+
+<div class="bg-inverse" id="placeholder">&nbsp;</div>
+
+<div class="text-center">
+    <img src="images/fluxbase.svg" alt="Fluxbase logo">
+</div>
+
+<section class="container m-b-lg">
+    <h1 class="text-center">
+        <p class="m-b-md">FLUXBASE</p>
+        <p class="lead">Flux implementation using Google Firebase</p>
+    </h1>
+</section>
+
+<section id="about" class="container">
+    <div class="markdown card-text" 
+         data-href="https://raw.githubusercontent.com/vimtaai/fluxbase/master/README.md">
+    </div>
+</section>
+
+<section id="docs" class="container">
+    <h1 class="mg-b-0">Docs</h1>
+    <hr>
+    <div class="markdown" 
+         data-href="https://raw.githubusercontent.com/vimtaai/fluxbase/master/docs/README.md">
+    </div>
+</section>
+
+<section id="samples" class="container">
+    <h1 class="mg-b-0">Samples</h1>
+    <hr>
+    <div class="markdown" 
+         data-href="samples/README.md">
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        Copyright Márton Visnovitz 2016.
+        <a href="https://github.com/vimtaai" class="right">@vimtaai</a>
+    </div>
+</footer>
+
+</main>
+
+<script type="text/javascript">
+    $('body').scrollspy({ target: '#navigation' });
+    $('a').on('click', function() {
+        if ($.attr(this, 'href').indexOf('#') != -1) {
+            $('html, body').animate({
+                scrollTop: $( $.attr(this, 'href') ).offset().top - 54
+            }, 500);
+            return false;
+        }
+    });
+    /* global $ */
+    /* global hljs */
+    /* global Remarkable */
+    var md = new Remarkable({
+        html: true,
+        langPrefix: '',
+        highlight: function (str, lang) {
+            if (lang && hljs.getLanguage(lang)) {
+              try {
+                return '<pre><code class="hljs">' + hljs.highlight(lang, str).value + '</code></pre>';
+              } catch (err) {}
+            }
+        
+            try {
+              return hljs.highlightAuto(str).value;
+            } catch (err) {}
+        
+            return ''; // use external default escaping
+        }
+    });
+    $('.markdown').each(function () {
+        var markdown = $(this);
+        $.get(markdown.attr('data-href'), function (data) {
+            markdown.html(md.render(data));
+        });
+    });
+</script>
