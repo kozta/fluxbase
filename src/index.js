@@ -108,10 +108,10 @@ class Store extends EventEmitter {
         
         if (obj !== undefined) { 
             // Setting up Firebase app
-            if (obj instanceof Firebase.app.App) {
-                this._app = obj;
-            } else if (typeof obj === 'object') {
+            if (['apiKey', 'databaseURL'].every(prop => prop in obj)) {
                 this._app = Firebase.initializeApp(obj, 'store' + (new Date()).getTime());
+            } else {
+                this._app = obj;
             }
             
             this._database = this._app.database();
