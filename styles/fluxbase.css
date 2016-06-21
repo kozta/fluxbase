@@ -1,0 +1,11 @@
+.pull-btn { margin-top: 5px; margin-bottom: -5px; }
+.p-t-lg { padding-top: 40px; }
+.scrollspy { position: relative; }
+.placeholder { height: 200px; margin-bottom: -100px; }
+.docs { padding-left: 66px; }
+.docs h1, .docs hr { margin-left: -56px; }
+.docs h2 { font-size: 1.25rem; font-weight: bold; margin-left: -56px; }
+.docs h3 { font-size: 1.1rem; margin-left: -23px; }
+.docs h2:before { content: '\f05f'; font-family: 'octicons'; padding-right: 10px; }
+.docs h2:first-of-type:before { content: '\f001';  }
+.docs h3:before { content: '\26A1'; font-family: 'octicons'; padding-right: 10px; }

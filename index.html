@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/tomorrow-night.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css">
+
+<link rel="stylesheet" href="styles/fluxbase.css">
 
 <script src="https://buttons.github.io/buttons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
@@ -17,21 +18,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.6.2/remarkable.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
 
-<style type="text/css">
-    h1 { padding-top: 40px; }
-    #main { position: relative; }
-    #github { margin-top: 5px; margin-bottom: -5px; }
-    #placeholder { height: 200px; margin-bottom: -100px; }
-    #docs { padding-left: 66px; }
-    #docs h1, #docs hr { margin-left: -56px; }
-    #docs h2 { font-size: 1.25rem; font-weight: bold; margin-left: -56px; }
-    #docs h3 { font-size: 1.1rem; margin-left: -23px; }
-    #docs h2:before { content: '\f05f'; font-family: 'octicons'; padding-right: 10px; }
-    #docs h2:first-of-type:before { content: '\f001';  }
-    #docs h3:before { content: '\26A1'; font-family: 'octicons'; padding-right: 10px; }
-</style>
-
-<main data-spy="scroll" id="main">
+<main data-spy="scroll" id="main" class="scrollspy">
 
 <nav class="navbar navbar-dark bg-inverse navbar-fixed-top">
     <div class="container" id="navigation">
@@ -41,7 +28,7 @@
             <li class="nav-item m-x-sm"><a href="#docs" class="nav-link">Docs</a></li>
             <li class="nav-item m-x-sm"><a href="#samples" class="nav-link">Samples</a></li>
         </ul>
-        <div class="pull-right" id="github">
+        <div class="pull-right pull-btn" id="github">
             <!-- Place this tag where you want the button to render. -->
             <a class="github-button" 
                href="https://github.com/vimtaai/fluxbase" 
@@ -51,14 +38,14 @@
     </div>
 </nav>
 
-<div class="bg-inverse" id="placeholder">&nbsp;</div>
+<div class="bg-inverse placeholder">&nbsp;</div>
 
 <div class="text-center">
     <img src="images/fluxbase.svg" alt="Fluxbase logo">
 </div>
 
 <section class="container m-b-lg">
-    <h1 class="text-center">
+    <h1 class="text-center p-t-lg">
         <p class="m-b-md">FLUXBASE</p>
         <p class="lead">Flux implementation using Google Firebase</p>
     </h1>
@@ -70,8 +57,8 @@
     </div>
 </section>
 
-<section id="docs" class="container">
-    <h1 class="mg-b-0">Docs</h1>
+<section id="docs" class="container docs">
+    <h1 class="mg-b-0 p-t-lg">Docs</h1>
     <hr>
     <div class="markdown" 
          data-href="https://raw.githubusercontent.com/vimtaai/fluxbase/master/docs/README.md">
@@ -79,7 +66,7 @@
 </section>
 
 <section id="samples" class="container">
-    <h1 class="mg-b-0">Samples</h1>
+    <h1 class="mg-b-0 p-t-lg">Samples</h1>
     <hr>
     <div class="markdown" 
          data-href="samples/README.md">
