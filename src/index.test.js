@@ -38,7 +38,10 @@ describe('Create store', () => {
     });
     
      it('should create a store using an object literal', () => {
-        store = Fluxbase.createStore({});
+        store = Fluxbase.createStore({
+            apiKey: '',
+            databaseURL: ''
+        });
         
         store.should.have.property('_database');
         store.should.have.property('ref').that.is.a.function;

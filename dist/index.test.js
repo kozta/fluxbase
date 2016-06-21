@@ -70,7 +70,10 @@ describe('Create store', function () {
     });
 
     it('should create a store using an object literal', function () {
-        store = _index2.default.createStore({});
+        store = _index2.default.createStore({
+            apiKey: '',
+            databaseURL: ''
+        });
 
         store.should.have.property('_database');
         store.should.have.property('ref').that.is.a.function;
