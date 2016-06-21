@@ -1,6 +1,6 @@
 {
   "name": "fluxbase",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Flux implementation using Google Firebase",
   "main": "dist/index.js",
   "scripts": {
