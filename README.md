@@ -1,4 +1,4 @@
-# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v0.0.5-blue.svg)
+# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v0.0.6-blue.svg)
 
 A minimal implementation of the Flux architecture using the new Google Firebase as the store.
 

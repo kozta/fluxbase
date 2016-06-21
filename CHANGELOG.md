@@ -1,3 +1,9 @@
+## 0.0.6 (Jun 21, 2016)
+
+### Bugfix
+
+- `Fluxbase.createStore` is now properly working with `Firebase.app.App` objects
+
 ## 0.0.5 (Jun 15, 2016)
 
 ### Added
