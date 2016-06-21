@@ -9,11 +9,11 @@
     "build-docs": "jsdoc2md src/index.js > docs/README.md",
     "pretest": "npm run build",
     "test": "mocha dist/**/*.test.js",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vimtaai/fluxbase.git",
+    "url": "git+https://github.com/vimtaai/fluxbase.git"
   },
   "keywords": [
     "flux",
