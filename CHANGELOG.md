@@ -1,3 +1,25 @@
+## 1.0.0 (Sep 20, 2016)
+
+### Added
+
+- The `Store.remote.connect` method
+- The `Store.remote.get` method
+- The `Store.remote.set` method
+- Support for local storage in memory (`Store.local`)
+- The `Store.createObserver` method
+
+### Modified
+
+- The module now uses Rx Observables instead of events
+- The `Fluxbase` class is now `Dispatcher`
+- The `Store` is now exported and created via the `new` keyword
+- Database references are now accessed via the `Store.remote.ref` method
+- Updated documentation
+
+### Removed
+
+- The `createStore` method
+
 ## 0.0.7 (Jun 21, 2016)
 
 ### Bugfix

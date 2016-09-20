@@ -1,6 +1,6 @@
 {
   "name": "fluxbase",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Flux implementation using Google Firebase",
   "main": "dist/index.js",
   "scripts": {
@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/vimtaai/fluxbase#readme",
   "dependencies": {
-    "firebase": "^3.0.3"
+    "firebase": "^3.0.3",
+    "rx": "^4.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",

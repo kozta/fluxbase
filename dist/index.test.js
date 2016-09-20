@@ -14,9 +14,11 @@ var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var _index = require('./index');
+var _rx = require('rx');
 
-var _index2 = _interopRequireDefault(_index);
+var _rx2 = _interopRequireDefault(_rx);
+
+var _index = require('./index');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,70 +49,176 @@ _sinon2.default.stub(_firebase2.default, 'app', function () {
 
     return _class;
 }());
+
 _sinon2.default.stub(_firebase2.default, 'initializeApp', function () {
     return new _firebase2.default.app();
 });
 // END Stub
 
-describe('Fluxbase', function () {
-    it('should not have any stores registered', function () {
-        _index2.default._stores.should.be.empty;
-    });
-});
-
-describe('Create store', function () {
+describe('Store', function () {
     var store;
 
     it('should create an uninitialized store object', function () {
-        store = _index2.default.createStore();
+        store = new _index.Store();
 
         store.should.not.have.property('_database');
-        store.should.not.have.property('ref').that.is.a.function;;
+        store.should.not.have.property('remote');
+        store.should.have.property('local');
+        store.local.should.have.property('get').that.is.a.function;
+        store.local.should.have.property('set').that.is.a.function;
+        store.local.should.have.property('connect').that.is.a.function;
         store._isInit.should.be.false;
     });
 
     it('should create a store using an object literal', function () {
-        store = _index2.default.createStore({
+        store = new _index.Store({
             apiKey: '',
             databaseURL: ''
         });
 
         store.should.have.property('_database');
-        store.should.have.property('ref').that.is.a.function;
+        store.should.have.property('remote');
+        store.remote.should.have.property('ref').that.is.a.function;
+        store.remote.should.have.property('get').that.is.a.function;
+        store.remote.should.have.property('set').that.is.a.function;
+        store.remote.should.have.property('connect').that.is.a.function;
+        store.should.have.property('local');
+        store.local.should.have.property('get').that.is.a.function;
+        store.local.should.have.property('set').that.is.a.function;
+        store.local.should.have.property('connect').that.is.a.function;
         store._isInit.should.be.true;
     });
 
     it('should create a store using an existing Firebase object', function () {
         var app = _firebase2.default.initializeApp({});
-        store = _index2.default.createStore(app);
+        store = new _index.Store(app);
 
         store.should.have.property('_database');
-        store.should.have.property('ref');
+        store.should.have.property('remote');
+        store.remote.should.have.property('ref').that.is.a.function;
+        store.remote.should.have.property('get').that.is.a.function;
+        store.remote.should.have.property('set').that.is.a.function;
+        store.remote.should.have.property('connect').that.is.a.function;
+        store.should.have.property('local');
+        store.local.should.have.property('get').that.is.a.function;
+        store.local.should.have.property('set').that.is.a.function;
+        store.local.should.have.property('connect').that.is.a.function;
         store._isInit.should.be.true;
     });
 });
 
-describe('Action dispatch', function () {
-    it('should throw an error on action without type', function () {
-        (function () {
-            _index2.default.dispatch({});
-        }).should.throw(Error);
+describe('Dispatcher', function () {
+    var dispatcher;
+
+    beforeEach(function () {
+        dispatcher = new _index.Dispatcher();
     });
 
-    it('all Stores should emit dispatched event', function () {
+    it('should have an action stream', function () {
+        dispatcher.should.have.property('stream');
+    });
+
+    it('should filter out actions without `type` property', function () {
+        var spy = _sinon2.default.spy();
+        var observer = _rx2.default.Observer.create(function () {
+            spy();
+        }, function () {
+            spy();
+        }, function () {
+            spy();
+        });
+
+        dispatcher.stream.subscribe(observer);
+
+        dispatcher.dispatch({});
+
+        spy.called.should.be.false;
+    });
+
+    it('should send dispatched actions to all Store Observers', function () {
         var spy1 = _sinon2.default.spy();
         var spy2 = _sinon2.default.spy();
 
-        var store1 = _index2.default.createStore();
-        var store2 = _index2.default.createStore();
+        var store1 = new _index.Store();
+        var store2 = new _index.Store();
 
-        store1.on('test', spy1);
-        store2.on('test', spy2);
+        dispatcher.stream.subscribe(store1.createObserver(function () {
+            spy1();
+        }, function () {
+            spy1();
+        }, function () {
+            spy1();
+        }));
+        dispatcher.stream.subscribe(store2.createObserver(function () {
+            spy2();
+        }, function () {
+            spy2();
+        }, function () {
+            spy2();
+        }));
 
-        _index2.default.dispatch({
+        dispatcher.dispatch({
             type: 'test'
         });
 
+        spy1.called.should.be.true;
+        spy2.called.should.be.true;
+    });
+});
+
+describe('Local storage', function () {
+    var store;
+
+    beforeEach(function () {
+        store = new _index.Store();
+    });
+
+    it('should update the store on a first level property', function () {
+        store.local.set('/name', 'value');
+        store.local._data.name.should.equal('value');
+        store.local.get('/name', function (value) {
+            value.should.equal('value');
+        });
+    });
+
+    it('should update the store on a deep property', function () {
+        store.local.set('/path/to/name', 'value');
+        store.local._data.path.to.name.should.equal('value');
+        store.local.get('/path/to/name', function (value) {
+            value.should.equal('value');
+        });
+    });
+
+    it('should update connected properties', function () {
+        var data = {};
+        store.local.connect('/name', data, 'name1');
+        store.local.connect('/name', data, 'name2');
+        store.local.set('/name', 'value');
+        data.name1.should.equal('value');
+        data.name2.should.equal('value');
+    });
+
+    it('should call connected handlers', function () {
+        var spy1 = _sinon2.default.spy();
+        var spy2 = _sinon2.default.spy();
+        store.local.connect('/name', spy1);
+        store.local.connect('/name', spy2);
+        store.local.set('/name', 'value');
+        spy1.called.should.be.true;
+        spy2.called.should.be.true;
+    });
+
+    it('should handle all connected handlers and properties', function () {
+        var data = {};
+        var spy1 = _sinon2.default.spy();
+        var spy2 = _sinon2.default.spy();
+        store.local.connect('/name', spy1);
+        store.local.connect('/name', spy2);
+        store.local.connect('/name', data, 'name1');
+        store.local.connect('/name', data, 'name2');
+        store.local.set('/name', 'value');
+        data.name1.should.equal('value');
+        data.name2.should.equal('value');
         spy1.called.should.be.true;
         spy2.called.should.be.true;
     });
