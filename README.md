@@ -1,4 +1,4 @@
-# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v1.0.0-blue.svg)
+# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v1.0.1-blue.svg)
 
 An implementation of the Flux architecture using [Rx Observables](http://reactivex.io/) and the 
 new Google Firebase as the store.
