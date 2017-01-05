@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Store = exports.Dispatcher = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -13,11 +13,15 @@ var _firebase = require('firebase');
 
 var _firebase2 = _interopRequireDefault(_firebase);
 
-var _events = require('events');
+var _nedb = require('nedb');
+
+var _nedb2 = _interopRequireDefault(_nedb);
 
 var _rx = require('rx');
 
 var _rx2 = _interopRequireDefault(_rx);
+
+var _events = require('events');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,25 +31,23 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/** 
+/**
  * Class representing the dispatcher in the Flux architecture
  * @property {external:Observable} stream The stream of actions emitted by the Dispatcher
  * @extends {external:EventEmitter}
  */
-
 var Dispatcher = function (_EventEmitter) {
     _inherits(Dispatcher, _EventEmitter);
 
-    /** 
+    /**
      * Create a Dispatcher object
-     * 
+     *
      * @constructor
      */
-
     function Dispatcher() {
         _classCallCheck(this, Dispatcher);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dispatcher).call(this));
+        var _this = _possibleConstructorReturn(this, (Dispatcher.__proto__ || Object.getPrototypeOf(Dispatcher)).call(this));
 
         _this.stream = _rx2.default.Observable.fromEvent(_this, 'action').filter(function (action) {
             return action !== null && (typeof action === 'undefined' ? 'undefined' : _typeof(action)) === 'object';
@@ -57,7 +59,7 @@ var Dispatcher = function (_EventEmitter) {
 
     /**
      * Send an action to the action stream
-     * 
+     *
      * @param {object} action      - The action object
      * @param {string} action.type - The type of the action
      * @param {*=}     action.data - Additional data for the action
@@ -81,9 +83,9 @@ var Dispatcher = function (_EventEmitter) {
     return Dispatcher;
 }(_events.EventEmitter);
 
-/** 
- * Class representing the store in the Flux architecture 
- *              
+/**
+ * Class representing the store in the Flux architecture
+ *
  * @property {object} remote - Access to the remote database
  * @property {object} local  - Access to the local database
  * @extends {external:EventEmitter}
@@ -98,7 +100,7 @@ var Store = function (_EventEmitter2) {
 
     /**
      * Create a Store object.
-     * 
+     *
      * @constructor
      * @param {(object|external:App)} obj - The initializer of the Store
      * @example
@@ -109,7 +111,7 @@ var Store = function (_EventEmitter2) {
      *   databaseURL: "<your-database-url>"
      * });
      * ```
-     * 
+     *
      * With a Firebase.app object:
      * ```js
      * var app = Firebase.initializeApp({
@@ -120,11 +122,10 @@ var Store = function (_EventEmitter2) {
      * var store = new Store(app);
      * ```
      */
-
     function Store(obj) {
         _classCallCheck(this, Store);
 
-        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Store).call(this));
+        var _this2 = _possibleConstructorReturn(this, (Store.__proto__ || Object.getPrototypeOf(Store)).call(this));
 
         _this2._isConnected = undefined;
         _this2.init(obj);
@@ -134,14 +135,14 @@ var Store = function (_EventEmitter2) {
     /**
      * Initialize an uninitialized Store.
      * Should be called only on an uninitialized Store.
-     * 
+     *
      * @param {(object|external:App)=} obj - The initializer of the Store
      * @example
      * ```js
      * var store = new Store(); // Uninitialized Store
      * store.init({
      *   apiKey: "<your-api-key>",
-     *   databaseURL: "<your-database-url>",   
+     *   databaseURL: "<your-database-url>",
      * });
      * ```
      */
@@ -156,7 +157,7 @@ var Store = function (_EventEmitter2) {
 
             /**
              * Trim the starting `/` character from a string
-             * 
+             *
              * @private
              * @param {string} str The string to be trimmed
              */
@@ -186,7 +187,7 @@ var Store = function (_EventEmitter2) {
 
                 /**
                  * Make a reference to the remote database
-                 * 
+                 *
                  * @type {external:Reference}
                  */
                 this.remote.ref = this._database.ref.bind(this._database);
@@ -201,7 +202,7 @@ var Store = function (_EventEmitter2) {
                  * Get a single value and log it
                  * ```js
                  * store.remote.get('/path/to/endpoint', function (value) {
-                 *   console.log(value); 
+                 *   console.log(value);
                  * });
                  * ```
                  */
@@ -221,15 +222,15 @@ var Store = function (_EventEmitter2) {
                  * ```js
                  * store.remote.set('/path/to/endpoint', value);
                  * ```
-                 * 
+                 *
                  * Combined with connect
                  * ```js
                  * var obj = {
                  *   value: 1
                  * };
-                 * 
+                 *
                  * store.remote.connect('/path/to/endpoint', obj, 'value');
-                 * 
+                 *
                  * store.remote.set('/path/to/endpoint', 2);
                  * // obj.value will change to `2`
                  * ```
@@ -240,7 +241,7 @@ var Store = function (_EventEmitter2) {
 
                 /**
                  * Connect (bind) a remote database endpoint to an object property or a callback function
-                 * 
+                 *
                  * @param {string} endpoint           - Path to the database endpoint
                  * @param {(object|function)} handler - Object the property of which to use / A single parameter
                  *                                      function to handle the value change
@@ -249,10 +250,10 @@ var Store = function (_EventEmitter2) {
                  * With an object property:
                  * ```js
                  * var data = {}
-                 * 
+                 *
                  * store.remote.connect('/path/to/endpoint', data, 'property');
                  * ```
-                 * 
+                 *
                  * With a callback function:
                  * ```js
                  * var obj = {
@@ -261,12 +262,12 @@ var Store = function (_EventEmitter2) {
                  *     this.data = value;
                  *   }
                  * };
-                 * 
+                 *
                  * store.remote.connect('/path/to/endpoint', obj.set.bind(obj));
                  * ```
                  */
                 this.remote.connect = function (endpoint, handler) {
-                    var property = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+                    var property = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
                     _this3.remote.ref(endpoint).on('value', function (snapshot) {
                         if (handler instanceof Function && handler !== null) {
@@ -331,7 +332,7 @@ var Store = function (_EventEmitter2) {
 
                 /**
                  * Convert a deep property path string into an Array of property names
-                 * 
+                 *
                  * @private
                  * @param {string} path Path to the deep property in `/path/to/property` format
                  * @return {Array} Array of property names for the deep access
@@ -366,15 +367,14 @@ var Store = function (_EventEmitter2) {
                  * Get a single value and log it
                  * ```js
                  * store.local.get('/path/to/endpoint', function (value) {
-                 *   console.log(value); 
+                 *   console.log(value);
                  * });
                  * ```
                  */
                 this.local.get = function (endpoint, callback) {
-                    var _local$_access = _this3.local._access(_this3.local._data, _this3.local._convertPath(endpoint));
-
-                    var object = _local$_access.object;
-                    var property = _local$_access.property;
+                    var _local$_access = _this3.local._access(_this3.local._data, _this3.local._convertPath(endpoint)),
+                        object = _local$_access.object,
+                        property = _local$_access.property;
 
                     callback(object[property]);
                 }; // END this.local.get
@@ -389,15 +389,15 @@ var Store = function (_EventEmitter2) {
                  * ```js
                  * store.local.set('/path/to/endpoint', value);
                  * ```
-                 * 
+                 *
                  * Combined with connect
                  * ```js
                  * var obj = {
                  *   value: 1
                  * };
-                 * 
+                 *
                  * store.local.connect('/path/to/endpoint', obj, 'value');
-                 * 
+                 *
                  * store.local.set('/path/to/endpoint', 2);
                  * // obj.value will change to `2`
                  * ```
@@ -405,10 +405,9 @@ var Store = function (_EventEmitter2) {
                 this.local.set = function (endpoint, value) {
                     endpoint = _this3._trim(endpoint);
 
-                    var _local$_access2 = _this3.local._access(_this3.local._data, _this3.local._convertPath(endpoint));
-
-                    var object = _local$_access2.object;
-                    var property = _local$_access2.property;
+                    var _local$_access2 = _this3.local._access(_this3.local._data, _this3.local._convertPath(endpoint)),
+                        object = _local$_access2.object,
+                        property = _local$_access2.property;
 
                     object[property] = value;
 
@@ -422,7 +421,7 @@ var Store = function (_EventEmitter2) {
 
                 /**
                  * Connect (bind) a local database endpoint to an object property or a callback function
-                 * 
+                 *
                  * @param {string} endpoint           - Path to the database endpoint
                  * @param {(object|function)} handler - Object the property of which to use / A single parameter
                  *                                      function to handle the value change
@@ -431,10 +430,10 @@ var Store = function (_EventEmitter2) {
                  * With an object property:
                  * ```js
                  * var data = {}
-                 * 
+                 *
                  * store.local.connect('/path/to/endpoint', data, 'property');
                  * ```
-                 * 
+                 *
                  * With a callback function:
                  * ```js
                  * var obj = {
@@ -443,12 +442,12 @@ var Store = function (_EventEmitter2) {
                  *     this.data = value;
                  *   }
                  * };
-                 * 
+                 *
                  * store.local.connect('/path/to/endpoint', obj.set.bind(obj));
                  * ```
                  */
                 this.local.connect = function (endpoint, handler) {
-                    var property = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+                    var property = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
                     endpoint = _this3._trim(endpoint);
                     if (_this3.local._handlers[endpoint] === undefined) {
@@ -472,7 +471,7 @@ var Store = function (_EventEmitter2) {
 
         /**
          * Create an Observer object to pass for the Observable.subscribe method
-         * 
+         *
          * @param {function} onNext      - A function to handle the incoming action on the stream
          * @param {function=} onError    - A function to handle errors on the action stream
          * @param {function=} onComplete - A function to handle the completion of the stream
@@ -488,10 +487,10 @@ var Store = function (_EventEmitter2) {
     }, {
         key: 'createObserver',
         value: function createObserver(onNext) {
-            var onError = arguments.length <= 1 || arguments[1] === undefined ? function (err) {
+            var onError = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (err) {
                 throw new Error(err);
-            } : arguments[1];
-            var onComplete = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+            };
+            var onComplete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : function () {};
 
             return _rx2.default.Observer.create(onNext.bind(this), onError.bind(this), onComplete.bind(this));
         } // END createObserver

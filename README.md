@@ -1,17 +1,17 @@
-# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v1.0.1-blue.svg)
+# Fluxbase [![Build Status](https://travis-ci.org/vimtaai/fluxbase.svg?branch=master)](https://travis-ci.org/vimtaai/fluxbase) ![NPM Version](https://img.shields.io/badge/npm-v2.0.0-blue.svg)
 
-An implementation of the Flux architecture using [Rx Observables](http://reactivex.io/) and the 
+An implementation of the Flux architecture using [Rx Observables](http://reactivex.io/) and the
 new Google Firebase as the store.
 
-Fluxbase uses the [Google Firebase](https://firebase.google.com) database backend and the memory as 
-the store for the [Flux architecture](https://facebook.github.io/flux/docs/overview.html) with a 
+Fluxbase uses the [Google Firebase](https://firebase.google.com) database backend and the memory as
+the store for the [Flux architecture](https://facebook.github.io/flux/docs/overview.html) with a
 unidirectional flow implemented with [Rx Observables](http://reactivex.io/).
 
-You can fetch data and listen to changes of the database using the Firebase events and handle 
+You can fetch data and listen to changes of the database using the Firebase events and handle
 actions with Rx Observers that are observing the main data stream for actions. You can filter the
 action stream to filter which events you want to target with your observers.
 For more details on Rx Observables and Observers visit the [ReactiveX homepage](http://reactivex.io/).
-Observer callbacks can modify the database. Google's Realtime Database feature always keeps 
+Observer callbacks can modify the database. Google's Realtime Database feature always keeps
 your data in-sync with the database contents.
 
 You also have a local storage available in the memory with the same methods as the remote connection.
@@ -27,7 +27,7 @@ Here is a minimal usage example.
 import { Dispatcher, Store } from 'fluxbase';
 
 // Create the dispatcher
-var dispatcher = new Dispatcher(); 
+var dispatcher = new Dispatcher();
 
 // Create the store with your Google Firebase API key and database URL
 // You can find these on the Firebase Console
@@ -54,7 +54,7 @@ dispatcher.stream
         // Get the current value from the local store
         store.local.get('number', value => {
             // Update the local store with a modified value
-            store.local.set('/number', (value | 0) + 1); 
+            store.local.set('/number', (value | 0) + 1);
             console.log('local', data.local);
         });
     }));
@@ -68,7 +68,7 @@ dispatcher.dispatch({ type: 'next' }); // Will run the main callback
 dispatcher.dispatch({ type: 'something' }); // Will be filtered out
 ```
 
-The API key and the database URL can be found in the 
+The API key and the database URL can be found in the
 [Firebase Console](https://console.firebase.google.com/) under
 **Overview > Add Firebase to your web app**.
 
@@ -87,12 +87,12 @@ var app = Firebase.initializeApp({
 var store = new Store(app);
 ```
 
-This way you still have access to the original `Firebase.app.App` object. This can be useful 
-if you want to use other features of Firebase like [Auth](https://firebase.google.com/docs/auth/web/manage-users) 
+This way you still have access to the original `Firebase.app.App` object. This can be useful
+if you want to use other features of Firebase like [Auth](https://firebase.google.com/docs/auth/web/manage-users)
 or [Storage](https://firebase.google.com/docs/storage/web/start).
 
-If you create a new store without passing any parameters you get an uninitialized store. 
-Uninitialized stores can't access any database. You can initialize such stores with the 
+If you create a new store without passing any parameters you get an uninitialized store.
+Uninitialized stores can't access any database. You can initialize such stores with the
 `Store.init()` method which takes the same parameters as the `Store` constructor.
 
 You can also handle database availability by registering callbacks for three events the `Store`
@@ -106,11 +106,11 @@ For registering event handlers you can use the `.on()` method of the store:
 
 ```js
 store.on('disconnect', () => {
-   alert('Oh, snap! We lost connection to the server!'); 
+   alert('Oh, snap! We lost connection to the server!');
 });
 ```
 
-For full reference for the methods of the `Store` please refer the 
+For full reference for the methods of the `Store` please refer the
 [Google Firebase Web API](https://firebase.google.com/docs/reference/js/firebase.database.Reference).
 
 You can bind Firebase endpoints to certain variable properties or to callbacks. With this one way
@@ -125,7 +125,7 @@ class MyComponent extends React.Component {
         };
         store.remote.connect('/path/to/endpoint', this.setState.bind(this));
     }
-    
+
     render() {
         return <div>{ this.state.data }</div>;
     }
