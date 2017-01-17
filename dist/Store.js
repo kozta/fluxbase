@@ -3,8 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var Store = exports.Store = function Store() {
-  return {};
-};
+exports.Store = Store;
+function Store() {}
 
 exports.default = Store;

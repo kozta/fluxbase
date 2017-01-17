@@ -1,5 +1,7 @@
 import chai from 'chai';
+import sinon from 'sinon';
 import Rx from 'rx';
+import {EventEmitter} from 'events';
 
 import Dispatcher from '../dist/Dispatcher';
 
@@ -7,9 +9,9 @@ chai.should();
 
 let dispatcher;
 
-describe('Dispatcher function', () => {
-  it('should be a function', () => {
-    Dispatcher.should.be.a.function;
+describe('Dispatcher class', () => {
+  it('should be a class', () => {
+    Dispatcher.should.be.a.class;
   });
 });
 
@@ -29,6 +31,7 @@ describe('Dispatcher object', () => {
 
   it('should have a `stream` property', () => {
     dispatcher.should.have.property('stream');
+    dispatcher.stream.should.be.an.instanceof(Rx.Subject);
   })
 });
 
@@ -39,5 +42,11 @@ describe('dispatcher.dispatch(payload)', () => {
 
   it('should be called', () => {
     let dispatch = dispatcher.dispatch();
+  });
+});
+
+describe('dispatcher.stream', () => {
+  beforeEach(() => {
+    dispatcher = new Dispatcher();
   });
 });

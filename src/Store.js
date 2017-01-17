@@ -1,5 +1,5 @@
-export let Store = () => ({
-
-});
+export function Store () {
+  
+}
 
 export default Store;
