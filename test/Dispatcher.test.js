@@ -17,7 +17,7 @@ describe('Dispatcher class', () => {
 
 describe('Dispatcher object', () => {
   before(() => {
-    dispatcher = Dispatcher();
+    dispatcher = new Dispatcher();
   });
 
   it('should be an object', () => {
@@ -37,7 +37,7 @@ describe('Dispatcher object', () => {
 
 describe('dispatcher.dispatch(payload)', () => {
   beforeEach(() => {
-    dispatcher = Dispatcher();
+    dispatcher = new Dispatcher();
   });
 
   it('should be called', () => {

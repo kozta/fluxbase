@@ -14,7 +14,7 @@ describe('Store object', () => {
   let store;
 
   beforeEach(() => {
-    store = Store();
+    store = new Store();
   });
 
   it('should be an object', () => {
