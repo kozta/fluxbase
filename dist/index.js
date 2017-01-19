@@ -3,18 +3,18 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Store = exports.Dispatcher = undefined;
+exports.createStore = exports.createDispatcher = undefined;
 
-var _Dispatcher = require('./Dispatcher');
+var _dispatcher = require('./dispatcher');
 
-var _Dispatcher2 = _interopRequireDefault(_Dispatcher);
+var _dispatcher2 = _interopRequireDefault(_dispatcher);
 
-var _Store = require('./Store');
+var _store = require('./store');
 
-var _Store2 = _interopRequireDefault(_Store);
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.Dispatcher = _Dispatcher2.default;
-exports.Store = _Store2.default;
-exports.default = { Dispatcher: _Dispatcher2.default, Store: _Store2.default };
+exports.createDispatcher = _dispatcher2.default;
+exports.createStore = _store2.default;
+exports.default = { createDispatcher: _dispatcher2.default, createStore: _store2.default };

@@ -3,7 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Store = Store;
-function Store() {}
+exports.createStore = createStore;
+function createStore() {
+  return {};
+};
 
-exports.default = Store;
+exports.default = createStore;

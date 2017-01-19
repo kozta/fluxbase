@@ -1,5 +1,5 @@
-export function Store () {
-  
-}
+export function createStore() {
+  return {};
+};
 
-export default Store;
+export default createStore;

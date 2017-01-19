@@ -1,10 +1,13 @@
-import Rx from 'rx';
+import {Subject} from 'rx';
 
-export function Dispatcher () {
-  this.stream = new Rx.Subject();
-  this.dispatch = function (payload) {
-    this.stream.onNext(payload);
+export function createDispatcher() {
+  return {
+    stream: new Subject(),
+
+    dispatch(payload) {
+      this.stream.onNext(payload);
+    }
   };
 };
 
-export default Dispatcher;
+export default createDispatcher;

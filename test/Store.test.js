@@ -1,20 +1,20 @@
 import chai from 'chai';
 
-import Store from '../dist/Store';
+import createStore from '../dist/store';
 
 chai.should();
 
-describe('Store function', () => {
+describe('createStore()', () => {
   it('should be a function', () => {
-    Store.should.be.a.function;
+    createStore.should.be.a.function;
   });
 });
 
-describe('Store object', () => {
+describe('store object', () => {
   let store;
 
   beforeEach(() => {
-    store = new Store();
+    store = createStore();
   });
 
   it('should be an object', () => {

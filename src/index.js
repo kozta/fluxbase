@@ -1,5 +1,5 @@
-import Dispatcher from './Dispatcher';
-import Store from './Store';
+import createDispatcher from './dispatcher';
+import createStore from './store';
 
-export { Dispatcher, Store };
-export default { Dispatcher, Store };
+export {createDispatcher, createStore};
+export default {createDispatcher, createStore};
