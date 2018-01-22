@@ -15,5 +15,3 @@ node_js:
   - "0.11"
   - "iojs"
   - "node"
-after_success:
-  - npm run coverage

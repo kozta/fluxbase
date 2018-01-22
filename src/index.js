@@ -1,5 +1,15 @@
-import createDispatcher from './dispatcher';
-import createStore from './store';
+import Rx from 'rx';
 
-export {createDispatcher, createStore};
-export default {createDispatcher, createStore};
+export class Store {
+    constructor() {
+        this.link = undefined;
+        this.type = undefined;
+        this.stream = new Rx.Subject();
+    }
+
+    get(path) {}
+    set(path, value) {}
+    sync(path, callback) {}
+}
+
+export default Store;
