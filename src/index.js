@@ -1,4 +1,4 @@
-import Rx from 'rx';
+import Rx from 'rxjs';
 
 export class Store {
     constructor() {

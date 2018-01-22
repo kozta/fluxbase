@@ -1,5 +1,5 @@
 import chai from 'chai';
-import Rx from 'rx';
+import Rx from 'rxjs';
 
 import { Store } from './index';
 
