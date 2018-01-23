@@ -1,10 +1,14 @@
-import Rx from 'rxjs';
+import { Subject } from 'rxjs';
 
 export class Store {
     constructor() {
         this.link = undefined;
         this.type = undefined;
-        this.stream = new Rx.Subject();
+        this.stream = new Subject();
+    }
+
+    dispatch(action) {
+        this.stream.next({store: this, action});
     }
 
     get(path) {}
